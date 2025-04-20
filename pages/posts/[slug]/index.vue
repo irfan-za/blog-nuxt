@@ -120,8 +120,29 @@
 <script setup>
 const route = useRoute();
 const slug = route.params.slug;
-const { data, pending, error, refresh } = await useFetch(`/api/post/${slug}`);
-const post = await data.value.data;
+const { data, pending } = await useFetch(`/api/post/${slug}`);
+
+// Use a computed property to ensure post is reactive and only defined when data is available
+const post = computed(() => data.value?.data);
+
+// Use watch to reactively set the SEO meta tags when the post data is available
+watch(
+  post,
+  (newPost) => {
+    if (newPost) {
+      useSeoMeta({
+        title: newPost.title,
+        ogTitle: newPost.title,
+        description: newPost.excerpt,
+        ogDescription: newPost.excerpt,
+        ogImage:
+          "https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      });
+    }
+  },
+  { immediate: true }
+); // immediate: true to run the watcher immediately
+
 // Format date helper function
 function formatDate(dateString) {
   if (!dateString) return "Unknown date";
@@ -133,28 +154,6 @@ function formatDate(dateString) {
     day: "numeric",
   }).format(date);
 }
-
-// Set page metadata
-useHead(() => {
-  if (!data.value?.post) return { title: "Loading..." };
-
-  return {
-    title: data.value.post.title,
-    meta: [
-      {
-        name: "description",
-        content: data.value.post.excerpt || data.value.post.title,
-      },
-      { property: "og:title", content: data.value.post.title },
-      {
-        property: "og:description",
-        content: data.value.post.excerpt || data.value.post.title,
-      },
-      { property: "og:image", content: data.value.post.image },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  };
-});
 </script>
 
 <style scoped>
