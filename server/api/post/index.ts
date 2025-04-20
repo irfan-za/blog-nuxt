@@ -1,4 +1,5 @@
 import { posts } from "~/constants";
+import { createExcerpt, createSlug } from "~/lib/utils";
 
 export default defineEventHandler(async (event) => {
   const method = getMethod(event);
@@ -25,13 +26,12 @@ export default defineEventHandler(async (event) => {
     const newPost = {
       id: posts.length + 1,
       title: body.title,
-      slug: body.slug || body.title.toLowerCase().replace(/\s+/g, "-"),
-      excerpt: body.excerpt || body.content.slice(0, 100) + "...",
+      slug: createSlug(body.title),
+      excerpt: createExcerpt(body.content),
       content: body.content,
       author: body.author || "Admin",
       createdAt: new Date().toISOString().split("T")[0],
     };
-
     posts.push(newPost);
 
     return {
