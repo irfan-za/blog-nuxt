@@ -4,6 +4,16 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
+  hooks: {
+    "pages:extend"(pages) {
+      pages.forEach((page) => {
+        if (page.path === "/posts/create") {
+          page.meta = page.meta || {};
+          page.meta.middleware = ["auth"];
+        }
+      });
+    },
+  },
   css: ["~/assets/css/main.css"],
   vite: {
     plugins: [tailwindcss()],
