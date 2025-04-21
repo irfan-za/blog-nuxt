@@ -2,6 +2,8 @@ import { posts } from "~/constants";
 import { createExcerpt, createSlug } from "~/lib/utils";
 
 export default defineEventHandler(async (event) => {
+  // delay to simulate a network request
+  await new Promise((resolve) => setTimeout(resolve, 3000));
   const method = getMethod(event);
   if (method === "GET") {
     return {

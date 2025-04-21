@@ -54,4 +54,6 @@ useSeoMeta({
 });
 // Fetch blog posts
 const { data: posts, pending, error } = await useFetch("/api/post");
+const { setPosts } = usePostsStore();
+setPosts(posts.value.data);
 </script>

@@ -28,5 +28,8 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  imports: {
+    dirs: ["store"],
+  },
   modules: ["@pinia/nuxt", "@nuxt/ui", "@nuxtjs/mdc"],
 });

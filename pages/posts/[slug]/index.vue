@@ -120,12 +120,39 @@
 <script setup>
 const route = useRoute();
 const slug = route.params.slug;
-const { data, pending } = await useFetch(`/api/post/${slug}`);
+const { posts, getPostBySlug, addPost } = usePostsStore();
+const post = ref(null);
+const pending = ref(true);
+async function fetchPost() {
+  pending.value = true; // Set pending to true before fetching
+  try {
+    if (posts.length > 0) {
+      post.value = getPostBySlug(slug);
+    } else {
+      const { data, error } = await useFetch(`/api/post/${slug}`);
 
-// Use a computed property to ensure post is reactive and only defined when data is available
-const post = computed(() => data.value?.data);
+      if (error.value) {
+        toast.add({
+          message: "Failed to load post",
+          type: "error",
+          duration: 3000,
+        });
+        return;
+      }
 
-// Use watch to reactively set the SEO meta tags when the post data is available
+      if (data.value && data.value.data) {
+        post.value = data.value.data;
+        addPost(data.value.data);
+      }
+    }
+  } finally {
+    pending.value = false; // Set pending to false after fetching (success or error)
+  }
+}
+
+// Call the fetchPost function
+fetchPost();
+
 watch(
   post,
   (newPost) => {
