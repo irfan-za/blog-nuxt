@@ -92,6 +92,7 @@ export const posts = [
   model.compile(loss='binary_crossentropy', optimizer='adam')
   \`\`\`
   
+  
   ### Tools Terbaru:
   - **Darktrace Antigena**: Respons otomatis serangan
   - **CrowdStrike Falcon**: Threat hunting berbasis ML
