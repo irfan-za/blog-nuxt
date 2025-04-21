@@ -8,11 +8,15 @@
       @submit="onSubmit"
     >
       <UFormField label="Email" name="email">
-        <UInput v-model="state.email" />
+        <UInput v-model="state.email" placeholder="john@mail.com" />
       </UFormField>
 
       <UFormField label="Password" name="password">
-        <UInput v-model="state.password" type="password" />
+        <UInput
+          v-model="state.password"
+          type="password"
+          placeholder="changeme"
+        />
       </UFormField>
 
       <UButton type="submit"> Login </UButton>
