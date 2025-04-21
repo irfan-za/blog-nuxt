@@ -30,5 +30,11 @@ export default defineNuxtConfig({
   imports: {
     dirs: ["store"],
   },
-  modules: ["@pinia/nuxt", "@nuxt/ui", "@nuxtjs/mdc"],
+  modules: [
+    "@pinia/nuxt",
+    "@nuxt/ui",
+    "@nuxtjs/mdc",
+    "@nuxtjs/robots",
+    "@nuxtjs/sitemap",
+  ],
 });
