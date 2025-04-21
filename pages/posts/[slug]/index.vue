@@ -124,7 +124,7 @@ const { posts, getPostBySlug, addPost } = usePostsStore();
 const post = ref(null);
 const pending = ref(true);
 async function fetchPost() {
-  pending.value = true; // Set pending to true before fetching
+  pending.value = true;
   try {
     if (posts.length > 0) {
       post.value = getPostBySlug(slug);
@@ -146,11 +146,10 @@ async function fetchPost() {
       }
     }
   } finally {
-    pending.value = false; // Set pending to false after fetching (success or error)
+    pending.value = false;
   }
 }
 
-// Call the fetchPost function
 fetchPost();
 
 watch(
@@ -168,9 +167,8 @@ watch(
     }
   },
   { immediate: true }
-); // immediate: true to run the watcher immediately
+);
 
-// Format date helper function
 function formatDate(dateString) {
   if (!dateString) return "Unknown date";
 

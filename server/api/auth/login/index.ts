@@ -21,7 +21,6 @@ export default defineEventHandler(async (event) => {
   if (method === "POST") {
     const body = await readBody(event);
 
-    // Validasi sederhana
     if (!body.email || !body.password) {
       return sendError(
         event,
@@ -36,7 +35,7 @@ export default defineEventHandler(async (event) => {
       "https://api.escuelajs.co/api/v1/auth/login",
       credentials
     );
-    // Set cookies
+
     await setAccessTokenCookie(event, data.access_token);
     await setRefreshTokenCookie(event, data.refresh_token);
 
@@ -47,7 +46,6 @@ export default defineEventHandler(async (event) => {
     };
   }
 
-  // Fallback jika method tidak dikenal
   return sendError(
     event,
     createError({

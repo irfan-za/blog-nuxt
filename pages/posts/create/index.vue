@@ -64,22 +64,18 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     state.content = undefined;
   } catch (error: any) {
     if (error.response) {
-      // The request was made and the server responded with a status code
       toast.add({
         title: "Error",
         description: `Server responded with an error: ${error.response.status}`,
         color: "error",
       });
     } else if (error.request) {
-      // The request was made but no response was received
-      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of http.ClientRequest in node.js
       toast.add({
         title: "Error",
         description: "No response received from the server.",
         color: "error",
       });
     } else {
-      // Something happened in setting up the request that triggered an Error
       toast.add({
         title: "Error",
         description: `Error: ${error.message}`,
